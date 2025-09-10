@@ -124,32 +124,18 @@ media (max-width:1024px){
   /* 行動：Card */
   .cards{display:none}
   @media (max-width:1024px){
-  .modal-wrap { padding: 0; }
+    .table-region{display:none}
+    .cards{display:grid;gap:16px}
 
-  .modal {
-    width: 100%;
-
-    /* fallback 舊瀏覽器 */
-    height: 100vh;
-
-    /* 新標準，符合實際可視高度 */
-    height: 100svh;
-    height: 100dvh;
-
-    max-width: none;
-    max-height: none;
-    border-radius: 0;
-
-    display: flex;
-    flex-direction: column;
-  }
-
-  .modal-content {
-    flex: 1;
-    min-height: 0;
-    overflow: auto;  /* 內容可捲動 */
-  }
-}
+    .card{
+      border:1px solid var(--line); border-radius:8px; background:#fff;
+      display:flex;flex-direction:column; font-size:14px; color:var(--ink);
+      padding-top:4px; padding-bottom:4px;
+    }
+    .card .section{padding:8px 12px; position:relative}
+    .card .section:not(:last-child)::after{
+      content:""; position:absolute; left:12px; right:12px; bottom:0; height:1px; background:var(--line);
+    }
 
     .card .title-row{display:flex;align-items:center;gap:4px;margin-top:4px;}
     .card .title-row .title{
@@ -167,6 +153,32 @@ media (max-width:1024px){
     .card .ops .actions{display:flex;gap:12px;align-items:center}
     .card .ops .icon-only{
       width:24px;height:24px;padding:0;margin:0;display:flex;align-items:center;justify-content:center;
+      /* 讓整個彈窗變成全滿頁 */
+  .modal-wrap{ padding:0; }
+  .modal{
+    width:100%;
+    /* 高度用多重保險，避免 iOS/Android 工具列吃到空間 */
+    height:100vh;     /* fallback */
+    height:100svh;    /* 新瀏覽器 */
+    height:100dvh;    /* iOS 16+ 最準 */
+    max-width:none; max-height:none; border-radius:0;
+    display:flex; flex-direction:column;
+  }
+
+  /* 肚子（內容）要能撐滿並可捲動 */
+  .modal-content{ flex:1; min-height:0; overflow:auto; }
+
+  /* 卡片清單也要能把高度吃滿 */
+  .data-area{ flex:1; display:flex; flex-direction:column; }
+  .cards{ flex:1; min-height:0; overflow:auto; }
+
+  /*（可選）安全區，避免瀏海/底部 home bar 壓住 header/footer */
+  :root{
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .modal-header{ padding-top: calc(16px + var(--safe-top)); }
+  .modal-footer{ padding-bottom: calc(16px + var(--safe-bottom)); }
     }
 
     /* 卡片模式：搜尋框全滿 */
