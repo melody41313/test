@@ -6,34 +6,36 @@
 <title>檔案選擇器（Table／Card 同資料）</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
-<!-- Font Awesome 7 -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" crossorigin="anonymous" />
 
 <style>
   :root{
-    --line:#EBEBF0;
-    --head-bg:#EBEBF0;
-    --hover:#F7F9FF;
-    --ink:#111827;
-    --muted:#4B5563;
-    --btn-purple:#4C3FFF;
-    --btn-bg:#D5DFFE;
+    --line:#EBEBF0; --head-bg:#EBEBF0; --hover:#F7F9FF;
+    --ink:#111827; --muted:#4B5563;
+    --btn-purple:#4C3FFF; --btn-bg:#D5DFFE;
     --overlay:rgba(0,0,0,.45);
   }
 
   *{box-sizing:border-box}
   html,body{height:100%}
-  body{margin:0;font-family:"Noto Sans TC",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:#ddd}
+  body{margin:0;font-family:"Noto Sans TC","Helvetica Neue",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:#ddd}
   body.modal-open{overflow:hidden}
   .hide-scroll{scrollbar-width:none}
   .hide-scroll::-webkit-scrollbar{display:none}
 
+  /* 通用 24×24 icon 包裝 */
+  .icon-24{width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex:0 0 24px}
+  .icon-24 i{font-size:16px;line-height:1}
+
+  /* Header 專用 40×40 包裝 (資料夾 icon) */
+  .icon-40{width:40px;height:40px;display:flex;align-items:center;justify-content:center;flex:0 0 40px}
+  .icon-40 i{font-size:24px;line-height:1}
+
   /* Overlay & Modal */
   .modal-wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:32px;background:var(--overlay)}
   .modal{
-    width:100%;max-width:1050px;
-    height:90vh;max-height:90vh;
-    background:#fff;border-radius:8px;box-shadow:0 22px 60px rgba(0,0,0,.28);
+    width:100%;max-width:1050px;height:90vh;max-height:90vh;background:#fff;
+    border-radius:8px;box-shadow:0 22px 60px rgba(0,0,0,.28);
     display:flex;flex-direction:column;overflow:hidden;
   }
   @media (max-width:1024px){
@@ -42,123 +44,102 @@
   }
 
   /* Header */
-  .modal-header{
-    height:62px;display:flex;align-items:center;justify-content:space-between;
-    padding:0 16px;border-bottom:1px solid var(--line)
-  }
+  .modal-header{height:62px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;border-bottom:1px solid var(--line)}
   .header-left{display:flex;align-items:center;gap:8px}
-  .close-btn{background:transparent;border:0;cursor:pointer;padding:8px}
-  .close-btn i{font-size:16px;color:#222}
+  .close-btn{background:transparent;border:0;cursor:pointer;padding:0}
 
   /* Content */
-  .modal-content{
-    flex:1;min-height:0;display:flex;flex-direction:column;
-    overflow:auto;padding:16px;background:#fff;
-  }
-  .data-area{
-    flex:1;display:flex;flex-direction:column;
-    gap:16px;
-    max-width:1018px;width:100%;margin:0 auto;
-  }
+  .modal-content{flex:1;min-height:0;display:flex;flex-direction:column;overflow:auto;padding:16px;background:#fff}
+  .data-area{flex:1;display:flex;flex-direction:column;gap:16px;max-width:1018px;width:100%;margin:0 auto}
   .toolbar{display:flex;align-items:center;gap:16px}
-  .btn-upload{
-    width:100px;height:36px;border-radius:8px;border:0;cursor:pointer;
-    background:var(--btn-bg);color:var(--btn-purple);
+  .btn-upload{width:100px;height:36px;border-radius:8px;border:0;cursor:pointer;background:var(--btn-bg);color:var(--btn-purple)}
+  .search{
+    flex:1;max-width:300px;          /* 桌機最大 300px */
+    display:flex;align-items:center;gap:8px;height:36px;
+    padding:0 12px;border:1px solid var(--line);border-radius:8px
   }
-  .search{flex:1;display:flex;align-items:center;gap:8px;height:36px;padding:0 12px;border:1px solid var(--line);border-radius:8px}
+  .search .icon-24{flex:0 0 24px}
   .search input{border:0;outline:none;width:100%;font:inherit}
 
-  /* ===== 桌機：Table ===== */
+  /* 桌機：Table */
   .table-region{flex:1;display:block;background:#fff}
   table{width:100%;border-collapse:separate;border-spacing:0;background:#fff}
-  thead th{
-    min-height:40px;
-    padding:8px 12px;
-    font-size:16px;font-weight:700;text-align:left;background:var(--head-bg);
-    min-width:80px;
+  table thead, table tbody { display: contents; }
+  table tr{
+    display:grid;grid-template-columns:50% 1fr 1fr 120px;align-items:center;
+    height:48px; position:relative;
   }
-  thead th:first-child{border-top-left-radius:4px}
-  thead th:last-child{border-top-right-radius:4px}
-  col.col-title{width:50%} col.col-uploader{width:16%} col.col-time{width:18%} col.col-ops{width:16%}
+  table thead tr{height:40px}
+  table thead tr::after, table tbody tr::after{
+    content:""; position:absolute; left:0; right:0; bottom:0; height:1px; background:var(--line);
+  }
+  thead tr > *{min-height:40px;padding:8px 12px;font-size:16px;font-weight:700;text-align:left;background:var(--head-bg)}
+  thead tr > *:first-child{border-top-left-radius:4px}
+  thead tr > *:last-child{border-top-right-radius:4px}
 
-  tbody td{
-    height:auto; min-height:48px;
-    padding:8px 12px;
-    font-size:14px;background:#fff;border-bottom:1px solid var(--line);
-    vertical-align:middle;
-  }
+  tbody td{padding:0 12px;font-size:14px;background:#fff;vertical-align:middle}
   tbody tr:hover td{background:var(--hover)}
 
-  .title-cell{display:flex;align-items:center;gap:8px;min-width:0}
-  .title-cell i{font-size:16px;margin-top:4px;} /* ← icon 上方多 4px */
-  .title-cell span{flex:1;min-width:0;overflow-wrap:anywhere}
-  .cell{display:flex;align-items:center;gap:8px;font-size:14px}
+  /* Table 標題欄（靠左、gap:4px） */
+  .title-cell{display:flex;align-items:center;height:48px;padding-left:0}
+  .title-cell .title-wrap{display:flex;align-items:center;gap:4px;min-width:0}
+  .title-cell .title-text{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:14px;line-height:19.6px}
+
+  /* 上傳者 */
+  .cell{display:flex;align-items:center;gap:8px;height:48px}
   .badge{display:inline-block;border-radius:4px;padding:2px 8px;font-size:14px;background:var(--btn-bg);color:#000}
 
-  .actions{display:flex;gap:12px;justify-content:flex-start}
-  .icon-only{
-    background:transparent;border:0;
-    width:24px;height:24px; /* ← 改成 24×24 */
-    display:grid;place-items:center;cursor:pointer;
-  }
-  .icon-only i{font-size:16px;color:#333}
+  /* 日期 */
+  .time-cell{font-family:"Helvetica Neue",sans-serif;font-size:12px;color:var(--ink)}
 
-  /* ===== Footer（桌機：100×36，右對齊） ===== */
-  .modal-footer{
-    height:68px;border-top:1px solid var(--line);
-    display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:0 16px;
-  }
-  .footer-btn{
-    width:100px;height:36px;border-radius:8px;border:0;cursor:pointer;
-  }
+  /* 操作 */
+  td.ops, th.ops{width:120px}
+  .actions{display:flex;gap:12px;align-items:center;white-space:nowrap}
+  .icon-only{background:transparent;border:0;padding:0;cursor:pointer}
+
+  /* Footer */
+  .modal-footer{height:68px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:0 16px}
+  .footer-btn{width:100px;height:36px;border-radius:8px;border:0;cursor:pointer}
   .footer-btn.secondary{background:var(--btn-bg);color:var(--btn-purple)}
   .footer-btn.primary{background:var(--btn-purple);color:#fff}
   .footer-btn.primary:disabled{opacity:.45;cursor:default}
 
-  /* ===== 行動：Card（≤1024px） ===== */
+  /* 行動：Card */
   .cards{display:none}
   @media (max-width:1024px){
     .table-region{display:none}
     .cards{display:grid;gap:16px}
 
     .card{
-      border:1px solid var(--line);
-      border-radius:8px;
-      background:#fff;
-      display:flex;flex-direction:column;
-
-      font-size:14px; line-height:1.6; color:var(--ink);
+      border:1px solid var(--line); border-radius:8px; background:#fff;
+      display:flex;flex-direction:column; font-size:14px; color:var(--ink);
+      padding-top:4px; padding-bottom:4px;
     }
-  .card .section {
-  padding: 8px 12px;
-  position: relative;
-}
-.card .section:not(:last-child)::after {
-  content: "";
-  position: absolute;
-  left: 12px;
-  right: 12px;
-  bottom: 0;
-  height: 1px;
-  background: var(--line);
-}
-    .card .title-row{display:flex;align-items:center;gap:8px}
+    .card .section{padding:8px 12px; position:relative}
+    .card .section:not(:last-child)::after{
+      content:""; position:absolute; left:12px; right:12px; bottom:0; height:1px; background:var(--line);
+    }
+
+    .card .title-row{display:flex;align-items:center;gap:4px;margin-top:4px;}
     .card .title-row .title{
       flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-      font-weight:700;font-size:14px;
-      margin-top:4px; /* ← Title 上方留白 4px */
+      font-weight:700;font-size:14px;line-height:19.6px;
     }
-    .card .title-row i{font-size:16px;margin-top:4px;} /* ← icon 也 +4px */
-
-    .card .hr{height:1px;background:var(--line);border:0;margin:0 12px}
 
     .card .field{display:flex;align-items:center;gap:8px}
-    .card .label{min-width:80px;color:var(--muted);font-weight:400}
-    .card .value{display:flex;align-items:center;gap:8px;font-weight:400}
+    .card .label{min-width:80px;color:var(--muted)}
+    .card .value{display:flex;align-items:center;gap:8px}
     .card .chip{background:var(--btn-bg);color:#000;padding:2px 8px;border-radius:4px;font-size:14px}
+    .card .value.date{font-family:"Helvetica Neue",sans-serif;font-size:12px}
 
-    .card .ops{display:flex;justify-content:flex-end}
-    .card .ops .actions{gap:12px}
+    .card .ops.section{display:flex;justify-content:flex-end}
+    .card .ops .actions{display:flex;gap:12px;align-items:center}
+    .card .ops .icon-only{
+      width:24px;height:24px;padding:0;margin:0;display:flex;align-items:center;justify-content:center;
+    }
+
+    /* 卡片模式：搜尋框全滿 */
+    .search{max-width:none;flex:1}
 
     .modal-footer{justify-content:stretch}
     .footer-btn{width:auto;flex:1;height:36px}
@@ -170,10 +151,12 @@
   <section class="modal" role="dialog" aria-modal="true">
     <header class="modal-header">
       <div class="header-left">
-        <i class="fa-solid fa-folder" style="font-size:24px;"></i>
-        <i class="fa-solid fa-caret-down" style="font-size:16px;"></i>
+        <span class="icon-40"><i class="fa-solid fa-folder"></i></span>
+        <span class="icon-24"><i class="fa-solid fa-caret-down"></i></span>
       </div>
-      <button class="close-btn" id="close"><i class="fa-solid fa-xmark"></i></button>
+      <button class="close-btn" id="close" aria-label="關閉">
+        <span class="icon-24"><i class="fa-solid fa-xmark"></i></span>
+      </button>
     </header>
 
     <div class="modal-content hide-scroll">
@@ -181,31 +164,27 @@
         <div class="toolbar">
           <button class="btn-upload">上傳檔案</button>
           <div class="search">
-            <i class="fa-solid fa-magnifying-glass" style="font-size:14px;"></i>
-            <input id="q" type="search" placeholder="搜尋檔案…" />
+            <span class="icon-24"><i class="fa-solid fa-magnifying-glass"></i></span>
+            <input id="q" type="search" placeholder="請輸入標題檔案" />
           </div>
         </div>
 
+        <!-- 桌機 Table -->
         <div class="table-region">
-          <table>
-            <colgroup>
-              <col class="col-title">
-              <col class="col-uploader">
-              <col class="col-time">
-              <col class="col-ops">
-            </colgroup>
-            <thead>
-              <tr>
-                <th>標題</th>
-                <th>上傳者</th>
-                <th>上傳時間</th>
-                <th>操作</th>
+          <table role="table" aria-label="檔案清單">
+            <thead role="rowgroup">
+              <tr role="row">
+                <th role="columnheader">標題</th>
+                <th role="columnheader">上傳者</th>
+                <th role="columnheader">上傳時間</th>
+                <th role="columnheader" class="ops">操作</th>
               </tr>
             </thead>
-            <tbody id="tbody"></tbody>
+            <tbody role="rowgroup" id="tbody"></tbody>
           </table>
         </div>
 
+        <!-- 行動 Card -->
         <div class="cards hide-scroll" id="cards"></div>
       </div>
     </div>
@@ -219,10 +198,10 @@
 
 <script>
   const items = [
-    { id: 1, type: 'video', title: 'TNL 十週年紀念影片', uploader: 'Melody', time: '2021-12-30 19:08' },
-    { id: 2, type: 'audio', title: '馬力喝你喝一杯 S3 ep01', uploader: 'TNL 編輯', time: '2021-12-30 19:08' },
-    { id: 3, type: 'doc',   title: '2025 年度全球營運策略整合計畫', uploader: 'pocheng.chang', time: '2025-09-01' },
-    { id: 4, type: 'doc',   title: '財經報表', uploader: 'Sarah', time: '2025-09-02' },
+    { id: 1, type: 'video', title: 'TNL 十週年紀念影片', uploader: '精選書摘', time: '2021-12-30 19:08' },
+    { id: 2, type: 'audio', title: '馬力歐陪你喝一杯 S3 ep01', uploader: 'TNL 編輯', time: '2021-12-30 19:08' },
+    { id: 3, type: 'doc',   title: '未來三年成長藍圖初步討論簡報資料', uploader: '部門 1', time: '2025-09-01' },
+    { id: 4, type: 'doc',   title: '文件樣本 2', uploader: '部門 2', time: '2025-09-02' },
   ];
 
   const typeIcon = (t) => {
@@ -235,19 +214,21 @@
   function render(list){
     const tbody = document.getElementById('tbody');
     tbody.innerHTML = list.map(it => `
-      <tr>
-        <td>
+      <tr role="row">
+        <td role="cell">
           <div class="title-cell">
-            <i class="${typeIcon(it.type)}"></i>
-            <span>${it.title}</span>
+            <div class="title-wrap">
+              <span class="icon-24"><i class="${typeIcon(it.type)}"></i></span>
+              <span class="title-text">${it.title}</span>
+            </div>
           </div>
         </td>
-        <td><div class="cell"><span class="badge">${it.uploader}</span></div></td>
-        <td><div class="cell">${it.time}</div></td>
-        <td>
+        <td role="cell"><div class="cell"><span class="badge">${it.uploader}</span></div></td>
+        <td role="cell"><div class="cell time-cell">${it.time}</div></td>
+        <td role="cell" class="ops">
           <div class="actions">
-            <button class="icon-only" title="連結"><i class="fa-solid fa-link"></i></button>
-            <button class="icon-only" title="編輯"><i class="fa-regular fa-pen-to-square"></i></button>
+            <button class="icon-only" title="連結"><span class="icon-24"><i class="fa-solid fa-link"></i></span></button>
+            <button class="icon-only" title="編輯"><span class="icon-24"><i class="fa-regular fa-pen-to-square"></i></span></button>
           </div>
         </td>
       </tr>
@@ -257,27 +238,21 @@
     cards.innerHTML = list.map(it => `
       <article class="card" data-id="${it.id}">
         <div class="title-row section">
-          <i class="${typeIcon(it.type)}"></i>
+          <span class="icon-24"><i class="${typeIcon(it.type)}"></i></span>
           <div class="title">${it.title}</div>
         </div>
-      
-
         <div class="field section">
           <div class="label">上傳者</div>
           <div class="value"><span class="chip">${it.uploader}</span></div>
         </div>
-      
-
         <div class="field section">
           <div class="label">最後更新</div>
-          <div class="value">${it.time}</div>
+          <div class="value date">${it.time}</div>
         </div>
-      
-
         <div class="ops section">
           <div class="actions">
-            <button class="icon-only" title="連結"><i class="fa-solid fa-link"></i></button>
-            <button class="icon-only" title="編輯"><i class="fa-regular fa-pen-to-square"></i></button>
+            <button class="icon-only" title="連結"><span class="icon-24"><i class="fa-solid fa-link"></i></span></button>
+            <button class="icon-only" title="編輯"><span class="icon-24"><i class="fa-regular fa-pen-to-square"></i></span></button>
           </div>
         </div>
       </article>
