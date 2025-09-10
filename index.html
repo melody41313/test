@@ -126,11 +126,22 @@
       border-radius:8px;
       background:#fff;
       display:flex;flex-direction:column;
-      gap:8px;
+
       font-size:14px; line-height:1.6; color:var(--ink);
     }
-    .card .section{padding:8px 12px}
-
+  .card .section {
+  padding: 8px 12px;
+  position: relative;
+}
+.card .section:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 0;
+  height: 1px;
+  background: var(--line);
+}
     .card .title-row{display:flex;align-items:center;gap:8px}
     .card .title-row .title{
       flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
@@ -208,10 +219,10 @@
 
 <script>
   const items = [
-    { id: 1, type: 'video', title: 'TNL 十週年紀念影片', uploader: '精選書摘', time: '2021-12-30 19:08' },
+    { id: 1, type: 'video', title: 'TNL 十週年紀念影片', uploader: 'Melody', time: '2021-12-30 19:08' },
     { id: 2, type: 'audio', title: '馬力喝你喝一杯 S3 ep01', uploader: 'TNL 編輯', time: '2021-12-30 19:08' },
-    { id: 3, type: 'doc',   title: '文件樣本 1：這是一段較長的標題測試是否會折行或擠壓其它欄', uploader: '部門 1', time: '2025-09-01' },
-    { id: 4, type: 'doc',   title: '文件樣本 2', uploader: '部門 2', time: '2025-09-02' },
+    { id: 3, type: 'doc',   title: '2025 年度全球營運策略整合計畫', uploader: 'pocheng.chang', time: '2025-09-01' },
+    { id: 4, type: 'doc',   title: '財經報表', uploader: 'Sarah', time: '2025-09-02' },
   ];
 
   const typeIcon = (t) => {
@@ -249,19 +260,19 @@
           <i class="${typeIcon(it.type)}"></i>
           <div class="title">${it.title}</div>
         </div>
-        <div class="hr"></div>
+      
 
         <div class="field section">
           <div class="label">上傳者</div>
           <div class="value"><span class="chip">${it.uploader}</span></div>
         </div>
-        <div class="hr"></div>
+      
 
         <div class="field section">
           <div class="label">最後更新</div>
           <div class="value">${it.time}</div>
         </div>
-        <div class="hr"></div>
+      
 
         <div class="ops section">
           <div class="actions">
