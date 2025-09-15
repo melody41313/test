@@ -15,7 +15,6 @@
     --btn-purple:#4C3FFF; --btn-bg:#D5DFFE;
     --overlay:rgba(0,0,0,.45);
   }
-
   *{box-sizing:border-box}
   html,body{height:100%}
   body{margin:0;font-family:"Noto Sans TC","Helvetica Neue",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:#ddd}
@@ -23,41 +22,28 @@
   .hide-scroll{scrollbar-width:none}
   .hide-scroll::-webkit-scrollbar{display:none}
 
-  /* 通用 24×24 icon 包裝 */
   .icon-24{width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex:0 0 24px}
-  .icon-24 i{font-size:16px;line-height:1}
-
-  /* Header 專用 40×40 包裝 (資料夾 icon) */
+  .icon-24 i{font-size:16px}
   .icon-40{width:40px;height:40px;display:flex;align-items:center;justify-content:center;flex:0 0 40px}
-  .icon-40 i{font-size:24px;line-height:1}
+  .icon-40 i{font-size:24px}
 
   /* Overlay & Modal */
   .modal-wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:32px;background:var(--overlay)}
   .modal{
-    width:100%;max-width:1116px;height:90vh;max-height:90vh;background:#fff;   /* ← 調整為 1116 */
+    width:100%;max-width:1116px;height:90vh;max-height:90vh;background:#fff;
     border-radius:8px;box-shadow:0 22px 60px rgba(0,0,0,.28);
     display:flex;flex-direction:column;overflow:hidden;
   }
 
-  /* RWD（<=1024） */
   @media (max-width:1024px){
     .modal-wrap { padding: 0; }
     .modal {
       width: 100%;
-      height: 100vh;      /* fallback */
-      height: 100svh;     /* 新瀏覽器正確高度 */
-      height: 100dvh;     /* iOS 16+ Safari 專用 */
-      max-width: none;
-      max-height: none;
-      border-radius: 0;
-      display: flex;
-      flex-direction: column;
+      height: 100vh; height: 100svh; height: 100dvh;
+      max-width: none; max-height: none; border-radius: 0;
+      display: flex; flex-direction: column;
     }
-    .modal-content {
-      flex: 1;
-      min-height: 0;
-      overflow: auto;
-    }
+    .modal-content { flex: 1; min-height: 0; overflow: auto; }
   }
 
   /* Header */
@@ -67,53 +53,31 @@
 
   /* Content */
   .modal-content{flex:1;min-height:0;display:flex;flex-direction:column;overflow:auto;padding:16px;background:#fff}
-  .data-area{
-    flex:1;display:flex;flex-direction:column;gap:16px;
-    max-width:1084px;                /* ← 調整 Table/內容最大寬到 1084 */
-    width:100%;margin:0 auto;
-  }
+  .data-area{flex:1;display:flex;flex-direction:column;gap:16px;max-width:1084px;width:100%;margin:0 auto}
   .toolbar{display:flex;align-items:center;gap:16px}
   .btn-upload{width:100px;height:36px;border-radius:8px;border:0;cursor:pointer;background:var(--btn-bg);color:var(--btn-purple)}
   .search{
-    flex:1;max-width:300px;          /* 桌機最大 300px */
-    display:flex;align-items:center;gap:8px;height:36px;
+    flex:1;max-width:300px;display:flex;align-items:center;gap:8px;height:36px;
     padding:0 12px;border:1px solid var(--line);border-radius:8px
   }
-  .search .icon-24{flex:0 0 24px}
   .search input{border:0;outline:none;width:100%;font:inherit}
 
   /* 桌機：Table */
   .table-region{flex:1;display:block;background:#fff}
   table{width:100%;border-collapse:separate;border-spacing:0;background:#fff}
   table thead, table tbody { display: contents; }
-  table tr{
-    display:grid;grid-template-columns:50% 1fr 1fr 120px;align-items:center;
-    height:48px; position:relative;
-  }
+  table tr{display:grid;grid-template-columns:50% 1fr 1fr 120px;align-items:center;height:48px; position:relative;}
   table thead tr{height:40px}
-  table thead tr::after, table tbody tr::after{
-    content:""; position:absolute; left:0; right:0; bottom:0; height:1px; background:var(--line);
-  }
+  table thead tr::after, table tbody tr::after{content:""; position:absolute; left:0; right:0; bottom:0; height:1px; background:var(--line);}
   thead tr > *{min-height:40px;padding:8px 12px;font-size:16px;font-weight:700;text-align:left;background:var(--head-bg)}
-  thead tr > *:first-child{border-top-left-radius:4px}
-  thead tr > *:last-child{border-top-right-radius:4px}
-
   tbody td{padding:0 12px;font-size:14px;background:#fff;vertical-align:middle}
   tbody tr:hover td{background:var(--hover)}
-
-  /* Table 標題欄（靠左、gap:4px） */
   .title-cell{display:flex;align-items:center;height:48px;padding-left:0}
   .title-cell .title-wrap{display:flex;align-items:center;gap:4px;min-width:0}
   .title-cell .title-text{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:14px;line-height:19.6px}
-
-  /* 上傳者 */
   .cell{display:flex;align-items:center;gap:8px;height:48px}
   .badge{display:inline-block;border-radius:4px;padding:2px 8px;font-size:14px;background:var(--btn-bg);color:#000}
-
-  /* 日期 */
   .time-cell{font-family:"Helvetica Neue",sans-serif;font-size:12px;color:var(--ink)}
-
-  /* 操作 */
   td.ops, th.ops{width:120px}
   .actions{display:flex;gap:12px;align-items:center;white-space:nowrap}
   .icon-only{background:transparent;border:0;padding:0;cursor:pointer}
@@ -121,7 +85,6 @@
   /* Footer */
   .modal-footer{height:68px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:0 16px}
   .footer-btn{width:100px;height:36px;border-radius:8px;border:0;cursor:pointer}
-  .footer-btn.secondary{background:var(--btn-bg);color:var(--btn-purple)}
   .footer-btn.primary{background:var(--btn-purple);color:#fff}
   .footer-btn.primary:disabled{opacity:.45;cursor:default}
 
@@ -130,7 +93,9 @@
   @media (max-width:1024px){
     .table-region{display:none}
     .cards{display:grid;gap:16px}
-
+    .search{max-width:none;flex:1}
+    .modal-footer{justify-content:stretch}
+    .footer-btn{width:auto;flex:1;height:36px}
     .card{
       border:1px solid var(--line); border-radius:8px; background:#fff;
       display:flex;flex-direction:column; font-size:14px; color:var(--ink);
@@ -140,65 +105,33 @@
     .card .section:not(:last-child)::after{
       content:""; position:absolute; left:12px; right:12px; bottom:0; height:1px; background:var(--line);
     }
-
     .card .title-row{display:flex;align-items:center;gap:4px;margin-top:4px;}
     .card .title-row .title{
       flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
       font-weight:700;font-size:14px;line-height:19.6px;
     }
-
     .card .field{display:flex;align-items:center;gap:8px}
     .card .label{min-width:80px;color:var(--muted)}
     .card .value{display:flex;align-items:center;gap:8px}
     .card .chip{background:var(--btn-bg);color:#000;padding:2px 8px;border-radius:4px;font-size:14px}
     .card .value.date{font-family:"Helvetica Neue",sans-serif;font-size:12px}
-
     .card .ops.section{display:flex;justify-content:flex-end}
     .card .ops .actions{display:flex;gap:12px;align-items:center}
-    .card .ops .icon-only{
-      width:24px;height:24px;padding:0;margin:0;display:flex;align-items:center;justify-content:center;
-    }
-
-    /* 卡片模式：搜尋框全滿 */
-    .search{max-width:none;flex:1}
-
-    .modal-footer{justify-content:stretch}
-    .footer-btn{width:auto;flex:1;height:36px}
+    .card .ops .icon-only{width:24px;height:24px;display:flex;align-items:center;justify-content:center;}
   }
 
-  /* 1) 行動上消掉 iOS 的 search 內建灰底與裝飾 */
-  input[type="search"]{
-    -webkit-appearance: none;
-    appearance: none;
-    background-color: transparent; /* 不要灰底 */
-    border: 0;
-    outline: none;
-  }
+  /* 表單細節 */
+  input[type="search"]{-webkit-appearance:none;appearance:none;background-color:transparent;border:0;outline:none;}
   input[type="search"]::-webkit-search-decoration,
   input[type="search"]::-webkit-search-cancel-button,
   input[type="search"]::-webkit-search-results-button,
-  input[type="search"]::-webkit-search-results-decoration{
-    -webkit-appearance: none;
-    display: none;                 /* 移除放大鏡/清除鈕等內建圖示 */
-  }
-
-  /* 2) 行動瀏覽器的字級統一（不讓 button 比較小） */
-  html { -webkit-text-size-adjust: 100%; } /* 禁止 iOS 自動縮放文字 */
-  button, input, select, textarea { font: inherit; }  /* 跟父層字體一致 */
-  .btn-upload { font-size: 14px; font-weight: 400; }  /* 明確指定按鈕字級 */
-
-  /* 3) icon 顏色固定，不受連結色 / :active 影響 */
-  .icon-24 i,
-  .actions .icon-only,
-  .actions .icon-only i{
-    color: #111827;                /* 主字色 */
-  }
-  a, button { -webkit-tap-highlight-color: transparent; } /* 點擊不變色 */
-
-  /* 4)（可選）避免暗色模式自動反轉顏色 */
-  @media (prefers-color-scheme: dark){
-    body { color-scheme: light; }  /* 或把你的變數顏色明確指定 */
-  }
+  input[type="search"]::-webkit-search-results-decoration{display:none}
+  html { -webkit-text-size-adjust: 100%; }
+  button, input, select, textarea { font: inherit; }
+  .btn-upload { font-size: 14px; font-weight: 400; }
+  .icon-24 i, .actions .icon-only, .actions .icon-only i{ color:#111827; }
+  a, button { -webkit-tap-highlight-color: transparent; }
+  @media (prefers-color-scheme: dark){ body { color-scheme: light; } }
 </style>
 </head>
 <body class="modal-open">
@@ -245,7 +178,6 @@
     </div>
 
     <footer class="modal-footer">
-      <button class="footer-btn secondary">取消</button>
       <button class="footer-btn primary" id="insertBtn" disabled>插入</button>
     </footer>
   </section>
@@ -267,6 +199,7 @@
   };
 
   function render(list){
+    // 1) 桌機 Table
     const tbody = document.getElementById('tbody');
     tbody.innerHTML = list.map(it => `
       <tr role="row">
@@ -289,6 +222,7 @@
       </tr>
     `).join('');
 
+    // 2) 行動 Card —— 這段之前不小心被刪掉了
     const cards = document.getElementById('cards');
     cards.innerHTML = list.map(it => `
       <article class="card" data-id="${it.id}">
@@ -314,6 +248,7 @@
     `).join('');
   }
 
+  // 搜尋過濾：同步影響 Table & Card
   const q = document.getElementById('q');
   q.addEventListener('input', () => {
     const s = q.value.trim().toLowerCase();
@@ -325,8 +260,10 @@
     render(filtered);
   });
 
+  // 初始渲染
   render(items);
 
+  // 關閉 modal
   const wrap=document.getElementById('wrap'), closeBtn=document.getElementById('close');
   function closeModal(){wrap.style.display="none";document.body.classList.remove('modal-open');}
   closeBtn.addEventListener('click',closeModal);
